@@ -2,11 +2,27 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import VueTool from 'vue-tool-plugin'
+import AxiosPlugin from 'axios-plugin'
+import VueToolPlugin from 'vue-tool-plugin'
 
-Vue.use(VueTool, { router, prefix: 'lalal' })
+Vue.use(VueToolPlugin, { router })
 
-console.log(Vue.prototype)
+Vue.use(AxiosPlugin, require.context('@/apiurl', true, /\.js$/), {
+    baseURL: '/api',
+    // 请求拦截之前
+    beforeRequest(config: any) {
+        console.log(config)
+        return config
+    },
+    // 接口响应成功事件
+    respSuccess(res: any) {
+        console.log(res)
+    },
+    // 接口响应失败事件
+    respError(e: any) {
+        console.log(e)
+    }
+})
 
 Vue.prototype.$mm = '妹妹'
 
@@ -14,9 +30,8 @@ Vue.prototype.$mm = '妹妹'
 declare module 'vue/types/vue' {
     interface Vue {
         $mm: any
-        $setItem: any
         $tool: any
-        $to: any
+        $api: any
     }
 }
 

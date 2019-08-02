@@ -7,23 +7,29 @@
 
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator'
-    import HelloWorld from '@/components/HelloWorld.vue' // @ is an alias to /src
 
-    @Component({
-        components: {
-            HelloWorld
-        }
-    })
+    @Component
     export default class Home extends Vue {
-        created() {
-            console.log(this.$mm)
-            console.log(this.$tool.fprice())
+       public created() {
+            console.log(this.$api)
+            const b = { name: '12' }
+            const a = this.$tool.copy(b)
+            console.log(a)
+            console.log(this.$tool.to)
             console.log(this.$tool.fdate())
-            this.$tool.setItem()
-
-            setTimeout(() => {
-                this.$tool.to('/about')
-            }, 5000)
+            console.log(this.$tool.fprice(1259465))
+            this.$tool.setItem('id', '111111')
+            this.GetImageCaptcha()
+        }
+        public GetImageCaptcha() {
+            this.$api.GetImageCaptcha().then((res: any) => {
+                if (res.Code === 1) {
+                    console.log(res.Data)
+                    setTimeout(() => {
+                        this.$tool.to('/about')
+                    }, 5000)
+                }
+            })
         }
     }
 </script>
